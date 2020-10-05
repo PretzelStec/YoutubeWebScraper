@@ -14,9 +14,11 @@ async function scrapeProduct(url){
             window,scrollBy(0,window.innerHeight);
         })
 
+        await page.waitFor(2000);
+
         let comments = [];
         for (let i = 1; i <= 10; i++){
-            await page.waitForXPath(`/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/ytd-comments/ytd-item-section-renderer/div[3]/ytd-comment-thread-renderer[${i}]/ytd-comment-renderer/div[1]/div[2]/ytd-expander/div/yt-formatted-string[2]`);
+            //await page.waitForXPath(`/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/ytd-comments/ytd-item-section-renderer/div[3]/ytd-comment-thread-renderer[${i}]/ytd-comment-renderer/div[1]/div[2]/ytd-expander/div/yt-formatted-string[2]`);
             
             const [el2] = await page.$x(`/html/body/ytd-app/div/ytd-page-manager/ytd-watch-flexy/div[4]/div[1]/div/ytd-comments/ytd-item-section-renderer/div[3]/ytd-comment-thread-renderer[${i}]/ytd-comment-renderer/div[1]/div[2]/ytd-expander/div/yt-formatted-string[2]`);
             const src = await el2.getProperty('textContent');
@@ -28,10 +30,15 @@ async function scrapeProduct(url){
         console.log(comments);
 
     } catch(err){
-        console.error(err.message);
+        if (err.message == 'Cannot read property \'getProperty\' of undefined'){
+            console.error("Connot read page contents..\nIs this a youtube video link?");
+        }
+        else{
+            console.error(err.message);
+        }
     }finally{
         browser.close();
     }    
 }
 
-scrapeProduct('https://www.youtube.com/watch?v=D4ph_5Dls18');
+scrapeProduct('https://www.youtube.com/watch?v=cqidD7kVnxY');
