@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Youtube Comment Scraper</h1>
+        <p>Enter the link to a youtube video, and the number of comments to grab.</p>
+
+        <form id = "submit-form" method = "POST" action = '/'>
+            <label for="URL">Youtube Link : </label>
+            <input type="text" name = 'URL'>
+            <label for="Count">Comment Count : </label>
+            <input type="text" name = "count">
+            <input type="submit" value = "submit" />
+        </form>
+        <ul>
+            <% comment.forEach(function(comm){ %>
+                <li><%=comm%></li>
+            <% }); %>
+        </ul>
+    </body>
+</html>
